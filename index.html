@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>V-IP</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="./dist/bootstrap.min.css" rel="stylesheet">
+
+        <style>
+        .container {
+            max-width: 600px;
+        }
+        .header {
+            text-align: center;
+        }
+        .footer {
+            text-align: center;
+        }
+        .well {
+            margin-top: 20px;
+            width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        </style>
+    </head>
+
+    <body>
+        <div id="vm" class="container">
+            <div class="header">
+                <h1>V-IP</h1>
+                <p>A ip location server build in vue</p>
+                <form class="form-inline">
+                    <input v-model="ip" debounce="500" style="width:300px" class="form-control" placeholder="Please enter what ip you want to query"></input>
+                    <a v-on:click="query" class="btn btn-primary">query</a>
+                </form>
+            </div>
+            <div class="well">
+                <p>lng: <code>{{ result.location.lng }}</code></p>
+                <p>lat: <code>{{ result.location.lat }}</code></p>
+                <p>address: <code>{{ result.formatted_address }}</code></p>
+                <p>adcode: <code>{{ result.addressComponent.adcode }}</code></p>
+                <p>sematic description: <code>{{ result.sematic_description }}</code></p>
+                <p>citycode: <code>{{ result.citycode }}</code></p>
+                <p>business: <code>{{ result.business }}</code></p>
+            </div>
+            <div class="footer">
+                <p>2016 &copy <a href="https://www.cnwangjie.com/">Wang Jie</a></p>
+            </div>
+
+        </div>
+
+
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="./dist/jquery.min.js"></script>
+        <script src="./dist/bootstrap.min.js"></script>
+        <script src="./dist/vue.min.js"></script>
+        <script src="./dist/vue-resource.min.js"></script>
+        <script>
+        var vm = new Vue({
+            el: '#vm',
+            data: {
+                ip: '',
+                result: {
+                    location: {
+                        lng: '',
+                        lat: ''
+                    },
+                    formatted_address: '',
+                    addressComponent: {
+                        adcode: '',
+                    },
+                    sematic_description: '',
+                    citycode: '',
+                    business: ''
+                }
+            },
+            created: () => {
+                $.ajax({
+                    url:'https://api.prprpr.me/location/',
+                    method: 'GET'
+                }).done((msg) => {
+                    vm.result = msg.result
+                })
+            },
+            methods: {
+                query: () => {
+                      $.ajax({
+                          url:'https://api.prprpr.me/location/?ip='+vm.ip,
+                          method: 'GET'
+                      }).done((msg) => {
+                          console.log(msg)
+                          vm.result = msg.result
+                      })
+                }
+            }
+        })
+        // window.onload = () => {
+        //     Vue.use()
+        //     var vm = new Vue({
+        //         el: '#vm',
+        //         data: () => {
+        //             this.http.get('https://api.prprpr.me/location/').then((res) => {
+        //                 return res.json()
+        //             })
+        //         },
+        //         created: () => {
+        //             this.$http.get('https://api.prprpr.me/location/').then((res) => {
+        //                 this.result = res.json().result
+        //             })
+        //         },
+        //         method: {
+        //             query: () => {
+        //
+        //             }
+        //         }
+        //
+        //     })
+        // }
+        </script>
+    </body>
+</html>
