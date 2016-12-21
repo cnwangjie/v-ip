@@ -65,67 +65,6 @@
         <script src="./dist/bootstrap.min.js"></script>
         <script src="./dist/vue.min.js"></script>
         <script src="./dist/vue-resource.min.js"></script>
-        <script>
-        var vm = new Vue({
-            el: '#vm',
-            data: {
-                ip: '',
-                result: {
-                    location: {
-                        lng: '',
-                        lat: ''
-                    },
-                    formatted_address: '',
-                    addressComponent: {
-                        adcode: '',
-                    },
-                    sematic_description: '',
-                    citycode: '',
-                    business: ''
-                }
-            },
-            created: () => {
-                $.ajax({
-                    url:'https://api.prprpr.me/location/',
-                    method: 'GET'
-                }).done((msg) => {
-                    vm.result = msg.result
-                })
-            },
-            methods: {
-                query: () => {
-                      $.ajax({
-                          url:'https://api.prprpr.me/location/?ip='+vm.ip,
-                          method: 'GET'
-                      }).done((msg) => {
-                          console.log(msg)
-                          vm.result = msg.result
-                      })
-                }
-            }
-        })
-        // window.onload = () => {
-        //     Vue.use()
-        //     var vm = new Vue({
-        //         el: '#vm',
-        //         data: () => {
-        //             this.http.get('https://api.prprpr.me/location/').then((res) => {
-        //                 return res.json()
-        //             })
-        //         },
-        //         created: () => {
-        //             this.$http.get('https://api.prprpr.me/location/').then((res) => {
-        //                 this.result = res.json().result
-        //             })
-        //         },
-        //         method: {
-        //             query: () => {
-        //
-        //             }
-        //         }
-        //
-        //     })
-        // }
-        </script>
+        <script src="./src/app.js"></script>
     </body>
 </html>
